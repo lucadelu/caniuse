@@ -74,6 +74,7 @@ def run_test(path, out, outputype):
             return False, 'Vector imported but not 3D'
     if outputype == 'display':
         g.region(vector=out)
+        
         d.mon(start='png', output=os.path.join(DIR_PATH, "{}.png".format(out)),
               overwrite=True)
         sleep(5)
@@ -136,16 +137,33 @@ tests_gml = OrderedDict([['gml_file_load', {'data': '../testcases/EMF.BRGM.data.
                                                       'check': 'import'}],
                          ['gml_mixed_geometry_display', {'data': '../testcases/PS.Finland.mixed.geometry.gml',
                                                          'check': 'display'}],
-                         ['gml_multiple_geometry_load', {'data': None,
+                         ['gml_multiple_geometry_load', {'data': '../testcases/EMF.BRGM.data.gml',
                                                          'check': 'import'}],
-                         ['gml_multiple_geometry_display', {'data': None,
+                         ['gml_multiple_geometry_display', {'data': '../testcases/EMF.BRGM.data.gml',
                                                             'check': 'display'}],
-                         ['gml_crs_http_encoding', {'data': None,
+                         ['gml_crs_http_encoding', {'data': 'testcases/PS.Finland.mixed.geometry.gml',
                                                     'check': 'display'}],
                          ['gml_geometry_3d_load', {'data': '../testcases/AD.Spain_full.3D.srsDimension.gml',
                                                    'check': 'import'}],
                          ['gml_geometry_3d_display', {'data': '../testcases/AD.Spain_full.3D.srsDimension.gml',
-                                                      'check': 'display'}]])
+                                                      'check': 'display'}],
+                         ['gml_complex_property_load', {'data': '../testcases/EMF.BRGM.data.gml',
+                                                        'check': 'import'}],
+                         ['gml_complex_property_display', {'data': '../testcases/EMF.BRGM.data.gml',
+                                                           'check': 'display'}],
+                         ['gml_complex_property_style', {'data': '../testcases/EMF.BRGM.data.gml',
+                                                         'check': 'style'}],
+                         ['gml_complex_property_processing', {'data': '../testcases/EMF.BRGM.data.gml',
+                                                              'check': 'processing'}],
+                         ['gml_multiple_occurrences_load', {'data': '../testcases/EMF.BRGM.data.gml',
+                                                        'check': 'import'}],
+                         ['gml_multiple_occurrences_display', {'data': '../testcases/EMF.BRGM.data.gml',
+                                                           'check': 'display'}],
+                         ['gml_multiple_occurrences_style', {'data': '../testcases/EMF.BRGM.data.gml',
+                                                         'check': 'style'}],
+                         ['gml_multiple_occurrences_processing', {'data': '../testcases/EMF.BRGM.data.gml',
+                                                              'check': 'processing'}],
+    ])
 
 tests_geojson = OrderedDict([['geojson_file_load', {'data': '../testcases/efs_example_2.geojson.geojson',
                                                     'check': 'import'}],
@@ -166,6 +184,22 @@ tests_geojson = OrderedDict([['geojson_file_load', {'data': '../testcases/efs_ex
                              ['geojson_geometry_3d_load', {'data': '../testcases/ads_example_1-3D.geojson.geojson',
                                                            'check': 'import'}],
                              ['geojson_geometry_3d_display', {'data': '../testcases/ads_example_1-3D.geojson.geojson',
+                                                              'check': 'display'}],
+                             ['geojson_property_boolean_load', {'data': '../testcases/ads_example_1-3D.geojson.geojson',
+                                                           'check': 'import'}],
+                             ['geojson_property_boolean_display', {'data': '../testcases/ads_example_1-3D.geojson.geojson',
+                                                              'check': 'display'}],
+                             ['geojson_property_boolean_style', {'data': '../testcases/ads_example_1-3D.geojson.geojson',
+                                                           'check': 'import'}],
+                             ['geojson_property_boolean_processing', {'data': '../testcases/ads_example_1-3D.geojson.geojson',
+                                                              'check': 'display'}],
+                             ['geojson_property_array_load', {'data': '../testcases/efs_example_2_more.timeseries.results.geojson',
+                                                           'check': 'import'}],
+                             ['geojson_property_array_display', {'data': '../testcases/efs_example_2_more.timeseries.results.geojson',
+                                                              'check': 'display'}],
+                             ['geojson_property_array_style', {'data': '../testcases/efs_example_2_more.timeseries.results.geojson',
+                                                           'check': 'import'}],
+                             ['geojson_property_array_processing', {'data': '../testcases/efs_example_2_more.timeseries.results.geojson',
                                                               'check': 'display'}],])
 
 ver = g.version(flags='g', stdout_=PIPE)
@@ -173,9 +207,9 @@ ver_dict = dict(item.split("=") for item in ver.outputs.stdout.splitlines())
 today = str(date.today())
 # test GML
 gml_json = all_tests('gml', tests_gml)
-with open('../results/GML.Tests-GRASS-GIS.v{}.json'.format(ver_dict['version']), 'w') as fi:
+with open(os.path.join(DIR_PATH, '../results/GML.Tests-GRASS-GIS.v{}.json'.format(ver_dict['version'])), 'w') as fi:
     fi.write(json.dumps(gml_json, indent=True))
 
 geojson_json = all_tests('geojson', tests_geojson)
-with open('../results/GeoJSON.Tests-GRASS-GIS.v{}.json'.format(ver_dict['version']), 'w') as fi:
+with open(os.path.join(DIR_PATH,'../results/GeoJSON.Tests-GRASS-GIS.v{}.json'.format(ver_dict['version'])), 'w') as fi:
     fi.write(json.dumps(geojson_json, indent=True))
