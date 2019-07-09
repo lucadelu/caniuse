@@ -46,7 +46,7 @@ def run_test(path, out, outputype):
     print("#################### {} ####################\n".format(out))
     if path.startswith('http'):
         try:
-            v.in_wfs(url=path, output=out, overwrite=True, quiet=True)
+            v._import(url=path, output=out, overwrite=True, quiet=True)
         except CalledModuleError:
             return False, "WFS not working"
     else:
@@ -114,10 +114,10 @@ tests_gml = OrderedDict([['gml_file_load', {'data': '../testcases/EMF.BRGM.data.
                                            'check': 'import'}],
                          ['gml_file_display', {'data': '../testcases/EMF.BRGM.data.gml',
                                   'check': 'display'}],
-                         #['gml_WFS2_load', {'data': 'https://wfspoc.brgm-rec.fr:443/geoserver/wfs?service=WFS&version=2.0.0&request=GetFeature&typenames=ef%3AEnvironmentalMonitoringFacility&count=100',
-                         #                   'check': 'import'}],
-                         #['gml_WFS2_display', {'data': 'https://wfspoc.brgm-rec.fr:443/geoserver/wfs?service=WFS&version=2.0.0&request=GetFeature&typenames=ef%3AEnvironmentalMonitoringFacility&count=100',
-                         #                      'check': 'display'}],
+                         ['gml_WFS2_load', {'data': 'https://wfspoc.brgm-rec.fr:443/geoserver/wfs?service=WFS&version=2.0.0&request=GetFeature&typenames=ef%3AEnvironmentalMonitoringFacility&count=100',
+                                            'check': 'import'}],
+                         ['gml_WFS2_display', {'data': 'https://wfspoc.brgm-rec.fr:443/geoserver/wfs?service=WFS&version=2.0.0&request=GetFeature&typenames=ef%3AEnvironmentalMonitoringFacility&count=100',
+                                               'check': 'display'}],
                          ['gml_file_edit', {'data': None,
                                             'check': 'edit'}],
                          ['gml_file_create', {'data': None,
@@ -154,17 +154,17 @@ tests_geojson = OrderedDict([['geojson_file_load', {'data': '../testcases/efs_ex
                              ['geojson_file_create', {'data': '../testcases/efs_example_2.geojson.geojson',
                                                       'check': 'create'}],
                              ['geojson_geometry_point_load', {'data': '../testcases/efs_example_2.geojson.geojson',
-                                                    'check': 'import'}],
+                                                              'check': 'import'}],
                              ['geojson_geometry_point_display', {'data': '../testcases/efs_example_2_more.timeseries.results.geojson',
-                                                       'check': 'display'}],
+                                                                 'check': 'display'}],
                              ['geojson_geometry_geometrycollection_load', {'data': '../testcases/ads_example_1.geojson-2geographicPositions.geojson',
-                                                    'check': 'import'}],
+                                                                           'check': 'import'}],
                              ['geojson_geometry_geometrycollection_display', {'data': '../testcases/ads_example_1.geojson-2geographicPositions.geojson',
-                                                       'check': 'display'}],
+                                                                              'check': 'display'}],
                              ['geojson_geometry_3d_load', {'data': '../testcases/ads_example_1-3D.geojson.geojson',
-                                                    'check': 'import'}],
+                                                           'check': 'import'}],
                              ['geojson_geometry_3d_display', {'data': '../testcases/ads_example_1-3D.geojson.geojson',
-                                                       'check': 'display'}],])
+                                                              'check': 'display'}],])
 
 ver = g.version(flags='g', stdout_=PIPE)
 ver_dict = dict(item.split("=") for item in ver.outputs.stdout.splitlines())
