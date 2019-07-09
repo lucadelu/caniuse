@@ -46,13 +46,15 @@ def run_test(path, out, outputype):
     print("#################### {} ####################\n".format(out))
     if path.startswith('http'):
         try:
-            v._import(url=path, output=out, overwrite=True, quiet=True)
+            v.in_ogr(input=path, output=out, flags='o', overwrite=True,
+                      gdal_doo='GML_ATTRIBUTES_TO_OGR_FIELDS=YES', quiet=True)
         except CalledModuleError:
             return False, "WFS not working"
     else:
         try:
-            v._import(input=os.path.join(DIR_PATH, path), output=out, overwrite=True,
-                       quiet=True)
+            v.in_ogr(input=os.path.join(DIR_PATH, path), output=out,
+                      flags='o', gdal_doo='GML_ATTRIBUTES_TO_OGR_FIELDS=YES',
+                      overwrite=True, quiet=True)
         except CalledModuleError:
             return False, "Error linking vector"
     try:
